@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:formazione_flutter/Network/NetworkManager.dart';
 
 class DioClient {
 
+  String baseUrl = "https://itunes.apple.com";
   final dio = Dio(
       BaseOptions(
         contentType: Headers.textPlainContentType
@@ -15,7 +15,7 @@ class DioClient {
 
   void configureDio() {
 
-    dio.options.baseUrl = 'https://jsonplaceholder.typicode.com';
+    dio.options.baseUrl = baseUrl;
     dio.options.connectTimeout = const Duration(seconds: 30);
     dio.options.receiveTimeout = const Duration(seconds: 30);
 

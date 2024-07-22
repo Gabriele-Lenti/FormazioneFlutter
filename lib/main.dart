@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:formazione_flutter/Network/NetworkManager.dart';
-import 'package:formazione_flutter/Response/ExampleResponse.dart';
+import 'package:formazione_flutter/UI/SearchResults.dart';
 
 void main() {
   runApp(const MyApp());
@@ -35,7 +35,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   bool _buttonPressed = false;
-  NetworkManager _networkManager = NetworkManager();
+  final _networkManager = NetworkManager();
 
   void setButtonPressed() {
     setState(() {
@@ -50,26 +50,8 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: _buttonPressed == false ? Text('$_counter'): FutureBuilder(
-          future: _networkManager.getToDoList(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              ExampleResponse response = snapshot.data;
-              if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              } else {
-                return Text(response.title ?? '');
-              }
-            }
-            return const CircularProgressIndicator();
-          },
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: setButtonPressed,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: const Center(
+        child: SearchResults(),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
