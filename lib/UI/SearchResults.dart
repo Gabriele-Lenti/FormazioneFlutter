@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formazione_flutter/Response/ArtistCollectionResponse.dart';
 import 'package:formazione_flutter/UI/Common/TableContainerView.dart';
+import 'package:formazione_flutter/bloc/filter_events.dart';
+import 'package:formazione_flutter/bloc/filter_state.dart';
 
 import '../Network/NetworkManager.dart';
+import '../bloc/filter_bloc.dart';
 
 class SearchResults extends StatefulWidget {
   const SearchResults({super.key});
@@ -16,47 +20,147 @@ class _SearchResultsState extends State<SearchResults> {
   String searchText = "";
 
   void onQueryChanged(String text) {
-    setState(() {
-      searchText = text.replaceAll(" ", "+");
-    });
+    context.read<FilterBloc>().add(UpdateSearchEvent(text));
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SearchBar(onChanged: onQueryChanged),
-        const SizedBox(height: 20),
-        Expanded(
-          child: FutureBuilder(
-              future: _networkManager.getArtistCollection(searchText),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  ArtistCollectionResponse response = snapshot.data;
-                  if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  } else {
-                    return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: response.results?.length,
-                      itemBuilder: (context, index) {
-                        if (response.results?[index] != null) {
-                          return TableContainerView(result: response.results![index]);
-                        }
-                        return null;
-                      },
+    return BlocBuilder<FilterBloc, FilterState>(
+        builder: (BuildContext context, FilterState state) {
+      if (state is InitialState) {
+        return Column(children: [
+          SearchBar(onChanged: onQueryChanged),
+          const SizedBox(height: 20),
+          Expanded(child: Container())
+        ]);
+      }
+      if (state is UpdateSearchState) {
+        return Column(
+          children: [
+            SearchBar(onChanged: onQueryChanged),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                TextButton(
+                  style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  onPressed: () {
+                    context
+                        .read<FilterBloc>()
+                        .add(FilterListEvent("feature-movie"));
+                  },
+                  child: Text('MOVIE'),
+                ),
+                TextButton(
+                  style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  onPressed: () {
+                    context.read<FilterBloc>().add(FilterListEvent("song"));
+                  },
+                  child: Text('MUSIC'),
+                ),
+                TextButton(
+                  style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.blue),
+                  ),
+                  onPressed: () {
+                    context.read<FilterBloc>().add(ResetFilterEvent());
+                  },
+                  child: Text('RESET'),
+                )
+              ],
+            ),
+            Expanded(
+              child: FutureBuilder(
+                  future:
+                      _networkManager.getArtistCollection(state.searchQuery),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      ArtistCollectionResponse response = snapshot.data;
+                      if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      } else {
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: response.results?.length,
+                          itemBuilder: (context, index) {
+                            if (response.results?[index] != null) {
+                              return TableContainerView(
+                                  result: response.results![index]);
+                            }
+                            return null;
+                          },
+                        );
+                      }
+                    }
+                    return const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [CircularProgressIndicator()],
                     );
-                  }
-                }
-                return const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [CircularProgressIndicator()],
-                );
-              }),
-        )
-      ],
-    );
+                  }),
+            )
+          ],
+        );
+      }
+      if (state is UpdateState) {
+        return Column(children: [
+          SearchBar(onChanged: onQueryChanged),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              TextButton(
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                onPressed: () {
+                  context
+                      .read<FilterBloc>()
+                      .add(FilterListEvent("feature-movie"));
+                },
+                child: Text('MOVIE'),
+              ),
+              TextButton(
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                onPressed: () {
+                  context.read<FilterBloc>().add(FilterListEvent("song"));
+                },
+                child: Text('MUSIC'),
+              ),
+              TextButton(
+                style: ButtonStyle(
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue),
+                ),
+                onPressed: () {
+                  context.read<FilterBloc>().add(ResetFilterEvent());
+                },
+                child: Text('RESET'),
+              )
+            ],
+          ),
+          Expanded(
+              child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: state.result.length,
+            itemBuilder: (context, index) {
+              return TableContainerView(result: state.result[index]);
+            },
+          ))
+        ]);
+      }
+      return Container();
+    });
   }
 }
