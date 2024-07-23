@@ -1,28 +1,14 @@
 import 'package:flutter/material.dart';
 
-class SearchBar extends StatefulWidget {
+class SearchBar extends StatelessWidget {
   const SearchBar({super.key});
-
-  @override
-  State<SearchBar> createState() => _SearchBarState();
-}
-
-class _SearchBarState extends State<SearchBar> {
-  String query = '';
-
-  void onQueryChanged(String newQuery) {
-    setState(() {
-      query = newQuery;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      child: TextField(
-        onChanged: onQueryChanged,
-        decoration: const InputDecoration(
+      child: const TextField(
+        decoration: InputDecoration(
           labelText: 'Search',
           border: OutlineInputBorder(),
           prefixIcon: Icon(Icons.search),

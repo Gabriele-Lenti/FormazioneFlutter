@@ -50,9 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: const Center(
-        child: SearchResults(),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: const SearchResults(), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
