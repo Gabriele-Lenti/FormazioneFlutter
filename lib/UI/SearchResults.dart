@@ -27,6 +27,13 @@ class _SearchResultsState extends State<SearchResults> {
   Widget build(BuildContext context) {
     return BlocBuilder<FilterBloc, FilterState>(
         builder: (BuildContext context, FilterState state) {
+          if (state is UpdateErrorState) {
+            return Column(children: [
+              SearchBar(onChanged: onQueryChanged),
+              const SizedBox(height: 20),
+              Expanded(child: Text(state.error))
+            ]);
+          }
       if (state is InitialState) {
         return Column(children: [
           SearchBar(onChanged: onQueryChanged),
