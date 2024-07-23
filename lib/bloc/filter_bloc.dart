@@ -2,12 +2,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formazione_flutter/bloc/filter_events.dart';
 import 'package:formazione_flutter/bloc/filter_state.dart';
 
+import '../Network/NetworkManager.dart';
 import '../Response/ArtistCollectionResponse.dart';
 
 class FilterBloc extends Bloc<FilterEvents, FilterState>{
 
-  List<Results> results = [];
+  List<Results> notFilteredresults = [];
   List<Results> filteredResults = [];
+  final _networkManager = NetworkManager();
 
   FilterBloc() : super(InitialState()) {
     on<UpdateListEvent>(onUpdateList);
@@ -22,16 +24,27 @@ class FilterBloc extends Bloc<FilterEvents, FilterState>{
 
   void onFilterList(FilterListEvent event, Emitter<FilterState> emit) async {
     String query = event.query;
-    event.filteredResults = event.results;
-    emit(UpdateState(event.filteredResults.where((i) => i.kind == query).toList()));
+    filteredResults = notFilteredresults;
+    emit(UpdateState(filteredResults.where((i) => i.kind == query).toList()));
   }
 
   void onResetFilter(ResetFilterEvent event, Emitter<FilterState> emit) async {
-    event.filteredResults = event.results;
-    emit(UpdateState(event.results));
+    filteredResults = notFilteredresults;
+    emit(UpdateState(notFilteredresults));
   }
 
-  void onUpdateSearch(UpdateSearchEvent event,Emitter<FilterState> emit) async {
-    emit(UpdateSearchState(event.searchQuery.replaceAll(" ", "+")));
+  Future<void> onUpdateSearch(UpdateSearchEvent event,Emitter<FilterState> emit) async {
+    try {
+      ArtistCollectionResponse response = await _networkManager
+          .getArtistCollection(event.searchQuery.replaceAll(" ", "+"));
+      List<Results>? results = response.results;
+      if (results != null) {
+        notFilteredresults = results;
+        filteredResults = results;
+        emit(UpdateState(results));
+      }
+    } catch (e){
+      emit(UpdateErrorState(e.toString()));
+    }
   }
 }
