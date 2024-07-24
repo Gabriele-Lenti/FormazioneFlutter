@@ -27,7 +27,7 @@ class FilterResults extends StatelessWidget {
                     return TextButton(
                       style: ButtonStyle(
                         foregroundColor:
-                        WidgetStateProperty.all<Color>(Colors.blue),
+                        WidgetStateProperty.all<Color>(Colors.deepPurpleAccent),
                       ),
                       onPressed: () {
                         context.read<FilterBloc>().add(

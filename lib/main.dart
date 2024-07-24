@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formazione_flutter/UI/BottomNavbarWidget/BottomNavbarBloc/bottom_navbar_bloc.dart';
 import 'package:formazione_flutter/UI/SearchResultsWidget/search_results.dart';
-
+import 'UI/BottomNavbarWidget/bottom_navbar.dart';
 import 'UI/SearchResultsWidget/SearchBloc/search_bloc.dart';
 
 void main() {
@@ -14,15 +15,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<SearchBloc>(
-        create: (context) => SearchBloc(),
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<BottomNavbarBloc>(create: (context) => BottomNavbarBloc()),
+          BlocProvider<SearchBloc>(create: (context) => SearchBloc())
+        ],
         child: MaterialApp(
           title: 'Flutter Demo Prova',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
           ),
-          home: const MyHomePage(title: 'Flutter Demo Home Page'),
+          home: const MyHomePage(title: 'Formazione Flutter'),
         ));
   }
 }
@@ -41,6 +45,7 @@ class MyHomePage extends StatelessWidget {
       ),
       body:
           const SearchResults(), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: const BottomNavbar(),
     );
   }
 }
