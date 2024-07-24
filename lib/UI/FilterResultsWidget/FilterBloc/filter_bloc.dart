@@ -11,7 +11,7 @@ class FilterBloc extends Bloc<FilterEvents, FilterState>{
   List<Results> filteredResults = [];
   List<String> blocFilters = [];
 
-  FilterBloc(List<Results> result, List<String> filters) : super(FilterState(result, filters)) {
+  FilterBloc(List<Results> result, List<String> filters) : super(FilterState(result, filters, null)) {
     notFilteredresults = result;
     filteredResults = result;
     blocFilters = filters;
@@ -26,12 +26,14 @@ class FilterBloc extends Bloc<FilterEvents, FilterState>{
 
   void onFilterList(FilterListEvent event, Emitter<FilterState> emit) async {
     String query = event.query;
+    int? selectedFilterIndex = event.selectedFilterIndex;
+
     filteredResults = notFilteredresults.where((i) => i.kind == query).toList();
-    emit(FilterState(filteredResults, blocFilters));
+    emit(FilterState(filteredResults, blocFilters, selectedFilterIndex));
   }
 
   void onResetFilter(ResetFilterEvent event, Emitter<FilterState> emit) async {
     filteredResults = notFilteredresults;
-    emit(FilterState(notFilteredresults, blocFilters));
+    emit(FilterState(notFilteredresults, blocFilters, null));
   }
 }

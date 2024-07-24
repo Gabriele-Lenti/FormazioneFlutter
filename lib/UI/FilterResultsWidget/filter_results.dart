@@ -16,32 +16,36 @@ class FilterResults extends StatelessWidget {
       return Column(
         children: [
           SizedBox(
-            height: (state.filters?.length ?? 0) > 0 ? 60 : 0,
-            child: ListView.builder(
-                // This next line does the trick.
-                scrollDirection: Axis.horizontal,
-                itemCount: state.filters?.length,
+            height: (state.filters?.length ?? 0) > 0 ? 40 : 0,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+              child: ListView.builder(
+                  // This next line does the trick.
+                  scrollDirection: Axis.horizontal,
+                  itemCount: state.filters?.length,
 
-                itemBuilder: (context, index) {
-                  if (state.filters?[index] != null) {
-                    return TextButton(
-                      style: ButtonStyle(
-                        foregroundColor:
-                        WidgetStateProperty.all<Color>(Colors.deepPurpleAccent),
-                      ),
-                      onPressed: () {
-                        context.read<FilterBloc>().add(
-                            state.filters![index] == "RESET"
-                                ? ResetFilterEvent()
-                                : FilterListEvent(state.filters![index]));
-                      },
-                      child: Text(state.filters![index]),
-                    );
-                  } else {
-                    return const SizedBox(height: 0,);
-                  }
-                }),
+                  itemBuilder: (context, index) {
+                    if (state.filters?[index] != null) {
+                      return TextButton(
+                        style: ButtonStyle(
+                            backgroundColor: state.selectedFilterIndex == index ? WidgetStateProperty.all(Colors.deepPurple) : WidgetStateProperty.all(Colors.transparent),
+                            foregroundColor: state.selectedFilterIndex == index ? WidgetStateProperty.all<Color>(Colors.white) : WidgetStateProperty.all<Color>(Colors.deepPurple)
+                        ),
+                        onPressed: () {
+                          context.read<FilterBloc>().add(
+                              state.filters![index] == "RESET"
+                                  ? ResetFilterEvent()
+                                  : FilterListEvent(state.filters![index], index));
+                        },
+                        child: Text(state.filters![index]),
+                      );
+                    } else {
+                      return const SizedBox(height: 0,);
+                    }
+                  }),
+            ),
           ),
+          const SizedBox(height: 8,),
           Expanded(
               child: ListView.builder(
             scrollDirection: Axis.vertical,

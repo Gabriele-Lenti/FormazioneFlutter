@@ -17,9 +17,9 @@ class SearchResults extends StatelessWidget {
   }
 
   void onQueryChanged(BuildContext context, String text) {
-      if (text.isEmpty) {
-        context.read<SearchBloc>().add(UpdateSearchEvent(text));
-      }
+    if (text.isEmpty) {
+      context.read<SearchBloc>().add(UpdateSearchEvent(text));
+    }
   }
 
   @override
@@ -28,8 +28,14 @@ class SearchResults extends StatelessWidget {
       child: Column(
         children: [
           // onSubmitted: ogni volta che premo invio cerca, onChanged: ogni volta che inserisco una lettera
-          SearchBar(onSubmitted: ((value) => onQuerySubmitted(context, value)),
-                    onChanged: ((value) => onQueryChanged(context, value))
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SearchBar(
+              onSubmitted: ((value) => onQuerySubmitted(context, value)),
+              onChanged: ((value) => onQueryChanged(context, value)),
+              hintText: "Cerca...",
+              leading: const Icon(Icons.search),
+            ),
           ),
           const SizedBox(height: 20),
           BlocBuilder<SearchBloc, SearchState>(

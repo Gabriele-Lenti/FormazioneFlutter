@@ -36,7 +36,11 @@ class TableContainerView extends StatelessWidget {
                 ],
               )
             )
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+            child: Icon(Icons.favorite_border_outlined, color: Colors.deepPurple),
+          ),
         ],
       ),
     );

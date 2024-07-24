@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// TODO: Implementare search bar custom
 class SearchBar extends StatelessWidget {
   const SearchBar({super.key});
 
