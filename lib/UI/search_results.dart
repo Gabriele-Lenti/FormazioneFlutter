@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formazione_flutter/UI/Common/TableContainerView.dart';
+import 'package:formazione_flutter/UI/Common/table_container_view.dart';
 import 'package:formazione_flutter/UI/filter_results.dart';
 
 import '../bloc/FilterBloc/filter_bloc.dart';

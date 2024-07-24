@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formazione_flutter/bloc/SearchBloc/search_events.dart';
 import 'package:formazione_flutter/bloc/SearchBloc/search_state.dart';
 
-import '../../Network/NetworkManager.dart';
-import '../../Response/ArtistCollectionResponse.dart';
+import '../../Network/network_manager.dart';
+import '../../Response/artist_collection_response.dart';
 
 class SearchBloc extends Bloc<SearchEvents, SearchState>{
 

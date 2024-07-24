@@ -5,7 +5,7 @@ import 'package:formazione_flutter/bloc/FilterBloc/filter_bloc.dart';
 import 'package:formazione_flutter/bloc/FilterBloc/filter_events.dart';
 
 import '../bloc/FilterBloc/filter_state.dart';
-import 'Common/TableContainerView.dart';
+import 'Common/table_container_view.dart';
 
 class FilterResults extends StatelessWidget {
   const FilterResults({super.key});

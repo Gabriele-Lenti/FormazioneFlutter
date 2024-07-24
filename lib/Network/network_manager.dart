@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:formazione_flutter/Network/DioClient.dart';
-import 'package:formazione_flutter/Response/ArtistCollectionResponse.dart';
-import 'package:formazione_flutter/Response/ExampleResponse.dart';
+import 'package:formazione_flutter/Network/dio_client.dart';
+import 'package:formazione_flutter/Response/artist_collection_response.dart';
+import 'package:formazione_flutter/Response/example_response.dart';
 
 class NetworkManager {
 

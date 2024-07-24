@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formazione_flutter/bloc/FilterBloc/filter_events.dart';
 import 'package:formazione_flutter/bloc/FilterBloc/filter_state.dart';
 
-import '../../Response/ArtistCollectionResponse.dart';
+import '../../Response/artist_collection_response.dart';
 
 class FilterBloc extends Bloc<FilterEvents, FilterState>{
 

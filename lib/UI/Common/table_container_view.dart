@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:formazione_flutter/Response/ArtistCollectionResponse.dart';
+import 'package:formazione_flutter/Response/artist_collection_response.dart';
 
 class TableContainerView extends StatelessWidget {
   final Results result;
