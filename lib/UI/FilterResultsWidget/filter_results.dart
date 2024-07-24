@@ -9,6 +9,10 @@ import 'FilterBloc/filter_events.dart';
 class FilterResults extends StatelessWidget {
   const FilterResults({super.key});
 
+  void addFavorite(int index) {
+    print("INDEX SELEZIONATO: $index");
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FilterBloc, FilterState>(
@@ -23,36 +27,48 @@ class FilterResults extends StatelessWidget {
                   // This next line does the trick.
                   scrollDirection: Axis.horizontal,
                   itemCount: state.filters?.length,
-
                   itemBuilder: (context, index) {
                     if (state.filters?[index] != null) {
                       return TextButton(
                         style: ButtonStyle(
-                            backgroundColor: state.selectedFilterIndex == index ? WidgetStateProperty.all(Colors.deepPurple) : WidgetStateProperty.all(Colors.transparent),
-                            foregroundColor: state.selectedFilterIndex == index ? WidgetStateProperty.all<Color>(Colors.white) : WidgetStateProperty.all<Color>(Colors.deepPurple)
-                        ),
+                            backgroundColor: state.selectedFilterIndex == index
+                                ? WidgetStateProperty.all(Colors.deepPurple)
+                                : WidgetStateProperty.all(Colors.transparent),
+                            foregroundColor: state.selectedFilterIndex == index
+                                ? WidgetStateProperty.all<Color>(Colors.white)
+                                : WidgetStateProperty.all<Color>(
+                                    Colors.deepPurple)),
                         onPressed: () {
-                          context.read<FilterBloc>().add(
-                              state.filters![index] == "RESET"
-                                  ? ResetFilterEvent()
-                                  : FilterListEvent(state.filters![index], index));
+                          context.read<FilterBloc>().add(state
+                                      .filters![index] ==
+                                  "RESET"
+                              ? ResetFilterEvent()
+                              : FilterListEvent(state.filters![index], index));
                         },
                         child: Text(state.filters![index]),
                       );
                     } else {
-                      return const SizedBox(height: 0,);
+                      return const SizedBox(
+                        height: 0,
+                      );
                     }
                   }),
             ),
           ),
-          const SizedBox(height: 8,),
+          const SizedBox(
+            height: 8,
+          ),
           Expanded(
               child: ListView.builder(
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             itemCount: state.result.length,
             itemBuilder: (context, index) {
-              return TableContainerView(result: state.result[index]);
+              return TableContainerView(
+                  result: state.result[index],
+                  callback: () {
+                    addFavorite(index);
+                  });
             },
           ))
         ],

@@ -4,7 +4,9 @@ import 'package:formazione_flutter/Response/artist_collection_response.dart';
 
 class TableContainerView extends StatelessWidget {
   final Results result;
-  const TableContainerView({super.key, required this.result});
+  final VoidCallback callback;
+  const TableContainerView(
+      {super.key, required this.result, required this.callback});
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +32,20 @@ class TableContainerView extends StatelessWidget {
           ),
           Expanded(
               child: Text.rich(TextSpan(
-                children: [
-                  TextSpan(text: artistName, style: const TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan( text: ' - $albumName'),
-                ],
-              )
-            )
-          ),
+            children: [
+              TextSpan(
+                  text: artistName,
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              TextSpan(text: ' - $albumName'),
+            ],
+          ))),
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-            child: Icon(Icons.favorite_border_outlined, color: Colors.deepPurple),
+            child: TextButton(
+              child: Icon(Icons.favorite_border_outlined,
+                  color: Colors.deepPurple),
+              onPressed: this.callback,
+            ),
           ),
         ],
       ),
