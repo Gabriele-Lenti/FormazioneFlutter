@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formazione_flutter/UI/SearchResults.dart';
-import 'package:formazione_flutter/bloc/filter_bloc.dart';
+import 'package:formazione_flutter/UI/search_results.dart';
+
+import 'bloc/SearchBloc/search_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<FilterBloc>(
-        create: (context) => FilterBloc(),
+    return BlocProvider<SearchBloc>(
+        create: (context) => SearchBloc(),
         child: MaterialApp(
           title: 'Flutter Demo Prova',
           theme: ThemeData(
