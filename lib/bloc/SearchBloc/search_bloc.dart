@@ -14,14 +14,22 @@ class SearchBloc extends Bloc<SearchEvents, SearchState>{
   }
 
   Future<void> onUpdateSearch(UpdateSearchEvent event,Emitter<SearchState> emit) async {
-    emit(UpdateSearchState(null, SearchStatus.isLoading));
+    emit(UpdateSearchState(null, SearchStatus.isLoading, []));
     try {
       ArtistCollectionResponse response = await _networkManager
           .getArtistCollection(event.searchQuery.replaceAll(" ", "+"));
       List<Results>? results = response.results;
-      if (results != null) {
-        emit(UpdateSearchState(results, SearchStatus.loaded));
+      List<String> filters = [];
+      if (results != null){
+        for (var value in results) {
+          if (!filters.contains(value.kind)) {
+            if (value.kind != null){
+              filters.add(value.kind!);
+            }
+          }
+        }
       }
+      emit(UpdateSearchState(results, SearchStatus.loaded, filters));
     } catch (e){
       emit(UpdateErrorState(e.toString()));
     }

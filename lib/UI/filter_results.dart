@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formazione_flutter/bloc/FilterBloc/filter_bloc.dart';
@@ -16,38 +15,32 @@ class FilterResults extends StatelessWidget {
         builder: (BuildContext context, FilterState state) {
       return Column(
         children: [
-          Row(
-            children: [
-              TextButton(
-                style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all<Color>(Colors.blue),
-                ),
-                onPressed: () {
-                  context
-                      .read<FilterBloc>()
-                      .add(FilterListEvent("feature-movie"));
-                },
-                child: const Text('MOVIE'),
-              ),
-              TextButton(
-                style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all<Color>(Colors.blue),
-                ),
-                onPressed: () {
-                  context.read<FilterBloc>().add(FilterListEvent("song"));
-                },
-                child: const Text('MUSIC'),
-              ),
-              TextButton(
-                style: ButtonStyle(
-                  foregroundColor: WidgetStateProperty.all<Color>(Colors.blue),
-                ),
-                onPressed: () {
-                  context.read<FilterBloc>().add(ResetFilterEvent());
-                },
-                child: const Text('RESET'),
-              )
-            ],
+          SizedBox(
+            height: 60,
+            child: ListView.builder(
+                // This next line does the trick.
+                scrollDirection: Axis.horizontal,
+                itemCount: state.filters?.length,
+
+                itemBuilder: (context, index) {
+                  if (state.filters?[index] != null) {
+                    return TextButton(
+                      style: ButtonStyle(
+                        foregroundColor:
+                        WidgetStateProperty.all<Color>(Colors.blue),
+                      ),
+                      onPressed: () {
+                        context.read<FilterBloc>().add(
+                            state.filters![index] == "RESET"
+                                ? ResetFilterEvent()
+                                : FilterListEvent(state.filters![index]));
+                      },
+                      child: Text(state.filters![index]),
+                    );
+                  } else {
+                    return const SizedBox(height: 0,);
+                  }
+                }),
           ),
           Expanded(
               child: ListView.builder(
