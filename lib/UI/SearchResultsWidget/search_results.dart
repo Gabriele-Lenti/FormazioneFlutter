@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formazione_flutter/UI/filter_results.dart';
+import 'package:formazione_flutter/UI/FilterResultsWidget/filter_results.dart';
 
-import '../bloc/FilterBloc/filter_bloc.dart';
-import '../bloc/SearchBloc/search_bloc.dart';
-import 'package:formazione_flutter/bloc/SearchBloc/search_events.dart';
-import 'package:formazione_flutter/bloc/SearchBloc/search_state.dart';
+import 'SearchBloc/search_bloc.dart';
+import 'SearchBloc/search_events.dart';
+import 'SearchBloc/search_state.dart';
+
+import '../FilterResultsWidget/FilterBloc/filter_bloc.dart';
 
 class SearchResults extends StatelessWidget {
   const SearchResults({super.key});
   final String searchText = "";
 
-  void onQueryChanged(BuildContext context, String text) {
+  void onQuerySubmitted(BuildContext context, String text) {
     context.read<SearchBloc>().add(UpdateSearchEvent(text));
+  }
+
+  void onQueryChanged(BuildContext context, String text) {
+      if (text.isEmpty) {
+        context.read<SearchBloc>().add(UpdateSearchEvent(text));
+      }
   }
 
   @override
@@ -20,7 +27,10 @@ class SearchResults extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: [
-          SearchBar(onChanged: ((value) => onQueryChanged(context, value))),
+          // onSubmitted: ogni volta che premo invio cerca, onChanged: ogni volta che inserisco una lettera
+          SearchBar(onSubmitted: ((value) => onQuerySubmitted(context, value)),
+                    onChanged: ((value) => onQueryChanged(context, value))
+          ),
           const SizedBox(height: 20),
           BlocBuilder<SearchBloc, SearchState>(
               builder: (BuildContext context, SearchState state) {

@@ -1,4 +1,4 @@
-import '../../Response/artist_collection_response.dart';
+import '../../../Response/artist_collection_response.dart';
 
 enum SearchStatus {
   initial, isLoading, loaded, error

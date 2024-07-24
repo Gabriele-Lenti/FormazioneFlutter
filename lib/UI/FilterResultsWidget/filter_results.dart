@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formazione_flutter/bloc/FilterBloc/filter_bloc.dart';
-import 'package:formazione_flutter/bloc/FilterBloc/filter_events.dart';
 
-import '../bloc/FilterBloc/filter_state.dart';
-import 'Common/table_container_view.dart';
+import '../Common/table_container_view.dart';
+import 'FilterBloc/filter_bloc.dart';
+import 'FilterBloc/filter_state.dart';
+import 'FilterBloc/filter_events.dart';
 
 class FilterResults extends StatelessWidget {
   const FilterResults({super.key});
@@ -16,7 +16,7 @@ class FilterResults extends StatelessWidget {
       return Column(
         children: [
           SizedBox(
-            height: 60,
+            height: (state.filters?.length ?? 0) > 0 ? 60 : 0,
             child: ListView.builder(
                 // This next line does the trick.
                 scrollDirection: Axis.horizontal,

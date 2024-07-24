@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formazione_flutter/UI/search_results.dart';
+import 'package:formazione_flutter/UI/SearchResultsWidget/search_results.dart';
 
-import 'bloc/SearchBloc/search_bloc.dart';
+import 'UI/SearchResultsWidget/SearchBloc/search_bloc.dart';
 
 void main() {
   runApp(const MyApp());

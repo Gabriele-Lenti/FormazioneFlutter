@@ -1,8 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formazione_flutter/bloc/FilterBloc/filter_events.dart';
-import 'package:formazione_flutter/bloc/FilterBloc/filter_state.dart';
 
-import '../../Response/artist_collection_response.dart';
+import "../../../Response/artist_collection_response.dart";
+
+import "filter_events.dart";
+import "filter_state.dart";
 
 class FilterBloc extends Bloc<FilterEvents, FilterState>{
 
@@ -14,7 +15,11 @@ class FilterBloc extends Bloc<FilterEvents, FilterState>{
     notFilteredresults = result;
     filteredResults = result;
     blocFilters = filters;
-    blocFilters.add("RESET");
+
+    if (filters.isNotEmpty) {
+      blocFilters.add("RESET");
+    }
+
     on<FilterListEvent>(onFilterList);
     on<ResetFilterEvent>(onResetFilter);
   }
