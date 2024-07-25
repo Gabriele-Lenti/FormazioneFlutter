@@ -1,15 +1,21 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:formazione_flutter/Provider/favorites_provider.dart';
 import 'package:formazione_flutter/Response/artist_collection_response.dart';
+import 'package:provider/provider.dart';
 
 class TableContainerView extends StatelessWidget {
   final Results result;
   final VoidCallback callback;
+
   const TableContainerView(
       {super.key, required this.result, required this.callback});
 
   @override
   Widget build(BuildContext context) {
+
+    final favoritesProvider = Provider.of<FavoritesProvider>(context);
+    String trackId = result.id.toString();
     String artistName = result.collectionArtistName ?? result.artistName ?? "";
     String albumName = result.trackName ?? "-";
     String imageUrl = result.artworkUrl100 ?? "";
@@ -42,9 +48,16 @@ class TableContainerView extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
             child: TextButton(
-              child: Icon(Icons.favorite_border_outlined,
-                  color: Colors.deepPurple),
-              onPressed: this.callback,
+              onPressed: () {
+                favoritesProvider.addOrRemoveFavorite(trackId);
+              },
+              child: favoritesProvider.isElementInFavorite(trackId) ? const Icon(
+                  Icons.favorite,
+                  color: Colors.deepPurple
+              ) : const Icon(
+                  Icons.favorite_border_outlined,
+                  color: Colors.deepPurple
+              ) ,
             ),
           ),
         ],

@@ -1,4 +1,6 @@
 
+import 'package:flutter/material.dart';
+
 class ArtistCollectionResponse {
   late int? resultCount;
   late List<Results>? results;
@@ -17,6 +19,7 @@ class ArtistCollectionResponse {
 }
 
 class Results {
+  late UniqueKey id;
  late String? wrapperType;
  late String? kind;
  late int? collectionId;
@@ -61,6 +64,7 @@ class Results {
  late String? collectionArtistName;
 
   Results({
+        required this.id,
         this.wrapperType,
         this.kind,
         this.collectionId,
@@ -106,6 +110,7 @@ class Results {
       });
 
   Results.fromJson(Map<String, dynamic> json) {
+    id = UniqueKey();
     wrapperType = json['wrapperType'];
     kind = json['kind'];
     collectionId = json['collectionId'];
