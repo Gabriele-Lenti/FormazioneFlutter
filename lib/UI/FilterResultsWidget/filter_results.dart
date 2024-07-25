@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:provider/provider.dart';
 
-import '../../Provider/favorites_provider.dart';
 import '../Common/table_container_view.dart';
 import 'FilterBloc/filter_bloc.dart';
 import 'FilterBloc/filter_state.dart';
@@ -60,22 +58,19 @@ class FilterResults extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          ChangeNotifierProvider(
-            create: (context) => FavoritesProvider(),
-            child: Expanded(
-                child: ListView.builder(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              itemCount: state.result.length,
-              itemBuilder: (context, index) {
-                return TableContainerView(
-                    result: state.result[index],
-                    callback: () {
-                      addFavorite(index);
-                    });
-              },
-            )),
-          )
+          Expanded(
+              child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            shrinkWrap: true,
+            itemCount: state.result.length,
+            itemBuilder: (context, index) {
+              return TableContainerView(
+                  result: state.result[index],
+                  callback: () {
+                    addFavorite(index);
+                  });
+            },
+          ))
         ],
       );
     });

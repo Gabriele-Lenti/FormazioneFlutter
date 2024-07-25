@@ -15,7 +15,7 @@ class TableContainerView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final favoritesProvider = Provider.of<FavoritesProvider>(context);
-    String trackId = result.id.toString();
+    String trackId = result.artistId == null ? result.trackId.toString() : result.artistId.toString();
     String artistName = result.collectionArtistName ?? result.artistName ?? "";
     String albumName = result.trackName ?? "-";
     String imageUrl = result.artworkUrl100 ?? "";
