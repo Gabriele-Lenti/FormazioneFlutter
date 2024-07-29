@@ -7,17 +7,26 @@ import 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvents, SearchState>{
 
   final _networkManager = NetworkManager();
+  List<Results> notFilteredresults = [];
+  List<Results> filteredResults = [];
+  List<String> blocFilters = [];
 
   SearchBloc() : super(InitialSearchState()) {
     on<UpdateSearchEvent>(onUpdateSearch);
+    on<FilterListEvent>(onFilterList);
+    on<ResetFilterEvent>(onResetFilter);
   }
 
   Future<void> onUpdateSearch(UpdateSearchEvent event,Emitter<SearchState> emit) async {
-    emit(UpdateSearchState(null, SearchStatus.isLoading, []));
+    emit(UpdateSearchState(null, SearchStatus.isLoading, 0, []));
     try {
       ArtistCollectionResponse response = await _networkManager
           .getArtistCollection(event.searchQuery.replaceAll(" ", "+"));
       List<Results>? results = response.results;
+      if (results != null) {
+        notFilteredresults = results;
+        filteredResults = results;
+      }
       List<String> filters = [];
       if (results != null){
         for (var value in results) {
@@ -29,13 +38,28 @@ class SearchBloc extends Bloc<SearchEvents, SearchState>{
         }
       }
 
-      if (filters.length == 1) {
+      if (filters.isEmpty) {
         filters = [];
+      } else {
+        filters.add("RESET");
       }
-
-      emit(UpdateSearchState(results, SearchStatus.loaded, filters));
+      blocFilters = filters;
+      emit(UpdateSearchState(results, SearchStatus.loaded, 0, filters));
     } catch (e){
       emit(UpdateErrorState(e.toString()));
     }
+  }
+
+  void onFilterList(FilterListEvent event, Emitter<SearchState> emit) async {
+    String query = event.query;
+    int? selectedFilterIndex = event.selectedFilterIndex;
+
+    filteredResults = notFilteredresults.where((i) => i.kind == query).toList();
+    emit(UpdateSearchState(filteredResults, SearchStatus.loaded, selectedFilterIndex, blocFilters));
+  }
+
+  void onResetFilter(ResetFilterEvent event, Emitter<SearchState> emit) async {
+    filteredResults = notFilteredresults;
+    emit(UpdateSearchState(filteredResults, SearchStatus.loaded, 0, blocFilters));
   }
 }

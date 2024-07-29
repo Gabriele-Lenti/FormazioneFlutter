@@ -10,9 +10,11 @@ class InitialSearchState extends SearchState {}
 
 class UpdateSearchState extends SearchState {
   final List<Results>? result;
-  final List<String> filter;
+  final List<String> filters;
+  int? selectedFilterIndex;
   SearchStatus status = SearchStatus.initial;
-  UpdateSearchState(this.result, this.status, this.filter);
+
+  UpdateSearchState(this.result, this.status, this.selectedFilterIndex, this.filters);
 }
 
 class UpdateErrorState extends SearchState {
