@@ -4,6 +4,7 @@ import 'package:formazione_flutter/UI/BottomNavbarWidget/BottomNavbarBloc/bottom
 import 'package:formazione_flutter/UI/FavouritesWidget/PreferitiBloc/preferiti_bloc.dart';
 import 'package:formazione_flutter/UI/SearchResultsWidget/search_results.dart';
 import 'UI/BottomNavbarWidget/bottom_navbar.dart';
+import 'UI/Profile/ProfileBloc/profile_bloc.dart';
 import 'main_screen.dart';
 import 'UI/SearchResultsWidget/SearchBloc/search_bloc.dart';
 
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
           BlocProvider<BottomNavbarBloc>(
               create: (context) => BottomNavbarBloc()),
           BlocProvider<PreferitiBloc>(create: (context) => PreferitiBloc()),
-          BlocProvider<SearchBloc>(create: (context) => SearchBloc())
+          BlocProvider<SearchBloc>(create: (context) => SearchBloc()),
+          BlocProvider<ProfileBloc>(create: (context) => ProfileBloc())
         ],
         child: MaterialApp(
           title: 'iTunes Search',

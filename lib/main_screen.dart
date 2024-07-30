@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formazione_flutter/UI/BottomNavbarWidget/BottomNavbarBloc/bottom_navbar_state.dart';
 import 'package:formazione_flutter/UI/FavouritesWidget/PreferitiBloc/preferiti_bloc.dart';
 import 'package:formazione_flutter/UI/FavouritesWidget/PreferitiBloc/preferiti_events.dart';
+import 'package:formazione_flutter/UI/Profile/profile.dart';
 
 import 'UI/BottomNavbarWidget/BottomNavbarBloc/bottom_navbar_bloc.dart';
 import 'UI/FavouritesWidget/favourites_widget.dart';
+import 'UI/Profile/LoginWidget/login_widget.dart';
 import 'UI/SearchResultsWidget/SearchBloc/search_bloc.dart';
 import 'UI/SearchResultsWidget/search_results.dart';
 
@@ -18,17 +20,11 @@ class MainScreen extends StatelessWidget {
   Widget navigate(BuildContext context, Pages pageSelected) {
     switch (pageSelected) {
       case Pages.search:
-        return BlocProvider.value(
-          value: BlocProvider.of<SearchBloc>(context),
-          child: const SearchResults(),
-        );
+        return const SearchResults();
       case Pages.favourites:
-        return BlocProvider.value(
-          value: BlocProvider.of<PreferitiBloc>(context),
-          child: const FavouritesWidget(),
-        );
+        return const FavouritesWidget();
       case Pages.profile:
-        return const Text("Profilo");
+        return const ProfileWidget();
     }
   }
 
