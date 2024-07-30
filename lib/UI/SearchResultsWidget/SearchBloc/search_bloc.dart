@@ -41,10 +41,16 @@ class SearchBloc extends Bloc<SearchEvents, SearchState>{
       if (filters.isEmpty) {
         filters = [];
       } else {
-        filters.add("RESET");
+
+        if (filters.length == 1) {
+          filters = [];
+        } else {
+          filters.add("RESET");
+        }
       }
+
       blocFilters = filters;
-      emit(UpdateSearchState(results, SearchStatus.loaded, 0, filters));
+      emit(UpdateSearchState(results, SearchStatus.loaded, null, filters));
     } catch (e){
       emit(UpdateErrorState(e.toString()));
     }
@@ -60,6 +66,6 @@ class SearchBloc extends Bloc<SearchEvents, SearchState>{
 
   void onResetFilter(ResetFilterEvent event, Emitter<SearchState> emit) async {
     filteredResults = notFilteredresults;
-    emit(UpdateSearchState(filteredResults, SearchStatus.loaded, 0, blocFilters));
+    emit(UpdateSearchState(filteredResults, SearchStatus.loaded, null, blocFilters));
   }
 }

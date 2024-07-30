@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formazione_flutter/UI/BottomNavbarWidget/BottomNavbarBloc/bottom_navbar_bloc.dart';
+import 'package:formazione_flutter/UI/FavouritesWidget/PreferitiBloc/preferiti_bloc.dart';
 import 'package:formazione_flutter/UI/SearchResultsWidget/search_results.dart';
 import 'UI/BottomNavbarWidget/bottom_navbar.dart';
-import 'UI/MainScreen/main_screen.dart';
+import 'main_screen.dart';
 import 'UI/SearchResultsWidget/SearchBloc/search_bloc.dart';
 
 void main() {
@@ -16,10 +17,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<BottomNavbarBloc>(
-        create: (context) => BottomNavbarBloc(),
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<BottomNavbarBloc>(
+              create: (context) => BottomNavbarBloc()),
+          BlocProvider<PreferitiBloc>(create: (context) => PreferitiBloc()),
+          BlocProvider<SearchBloc>(create: (context) => SearchBloc())
+        ],
         child: MaterialApp(
-          title: 'Flutter Demo Prova',
+          title: 'iTunes Search',
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             useMaterial3: true,
@@ -41,7 +47,8 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
       ),
-      body: const MainScreen(), // This trailing comma makes auto-formatting nicer for build methods.
+      body:
+          MainScreen(), // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: const BottomNavbar(),
     );
   }

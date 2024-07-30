@@ -4,12 +4,14 @@ import "bottom_navbar_state.dart";
 
 class BottomNavbarBloc extends Bloc<BottomNavbarEvents, BottomNavbarState>{
 
-  BottomNavbarBloc() : super(BottomNavbarState(0)) {
+  BottomNavbarBloc() : super(BottomNavbarState(Pages.search, 0)) {
     on<OnTabChangedEvent>(onTabChanged);
   }
 
   void onTabChanged(OnTabChangedEvent event, Emitter<BottomNavbarState> emit) async {
     int currentIndex = event.selectedTabIndex;
-    emit(BottomNavbarState(currentIndex));
+    Pages currentPage = Pages.values[currentIndex];
+
+    emit(BottomNavbarState(currentPage, currentIndex));
   }
 }

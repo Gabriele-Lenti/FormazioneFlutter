@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formazione_flutter/Response/artist_collection_response.dart';
-import 'package:formazione_flutter/UI/MainScreen/PreferitiBloc/preferiti_bloc.dart';
-import 'package:formazione_flutter/UI/MainScreen/PreferitiBloc/preferiti_events.dart';
+import 'package:formazione_flutter/UI/FavouritesWidget/PreferitiBloc/preferiti_bloc.dart';
+import 'package:formazione_flutter/UI/FavouritesWidget/PreferitiBloc/preferiti_events.dart';
 
-import '../MainScreen/PreferitiBloc/preferiti_state.dart';
+import '../FavouritesWidget/PreferitiBloc/preferiti_state.dart';
 
 class TableContainerView extends StatelessWidget {
   final Results result;
   const TableContainerView( {super.key, required this.result} );
 
 
-  void addOrRemoveFavorite(BuildContext context, String id) {
-    context.read<PreferitiBloc>().add(AddOrRemovePreferitiEvent(id));
+  void addOrRemoveFavorite(BuildContext context, String id, Results object) {
+    context.read<PreferitiBloc>().add(AddOrRemovePreferitiEvent(id, object));
   }
 
   bool isFavorite(PreferitiState state, String id) {
@@ -22,8 +22,8 @@ class TableContainerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String trackId = result.artistId == null
-        ? result.trackId.toString()
-        : result.artistId.toString();
+        ? (result.trackId.toString()+result.collectionId.toString())
+        : (result.artistId.toString()+result.trackId.toString());
     String artistName = result.collectionArtistName ?? result.artistName ?? "";
     String albumName = result.trackName ?? "-";
     String imageUrl = result.artworkUrl100 ?? "";
@@ -72,7 +72,7 @@ class TableContainerView extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                 child: TextButton(
                   onPressed: () {
-                    addOrRemoveFavorite(context, trackId);
+                    addOrRemoveFavorite(context, trackId, result);
                   },
                   child: isFavorite(state, trackId)
                       ? const Icon(Icons.favorite, color: Colors.deepPurple)
