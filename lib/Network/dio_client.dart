@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 class DioClient {
 
   String baseUrl = "https://itunes.apple.com";
+  String loginUrl = "https://dummyjson.com";
   final dio = Dio(
       BaseOptions(
         contentType: Headers.textPlainContentType
@@ -19,6 +20,10 @@ class DioClient {
     dio.options.connectTimeout = const Duration(seconds: 30);
     dio.options.receiveTimeout = const Duration(seconds: 30);
 
+  }
+
+  void updateBaseUrl(bool isLogin){
+    dio.options.baseUrl = isLogin ? loginUrl : baseUrl;
   }
 
   String getBaseUrl() {
