@@ -31,7 +31,7 @@ class LoginWidget extends StatelessWidget{
                       },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: "User",
+                        labelText: "emmaj",
                       ),
                     ),
                   ),
@@ -47,7 +47,7 @@ class LoginWidget extends StatelessWidget{
                       obscureText: true,
                       decoration: InputDecoration(
                           border: OutlineInputBorder(),
-                          labelText: "Password"
+                          labelText: "emmajpass"
                       ),
                     ),
                   ),

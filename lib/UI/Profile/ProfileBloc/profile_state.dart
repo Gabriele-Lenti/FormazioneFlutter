@@ -1,7 +1,9 @@
+import '../../../Response/login_response.dart';
+
 class ProfileState{}
 
 class LoginUserState extends ProfileState{
   bool isLogged;
-  String? username;
-  LoginUserState(this.isLogged, this.username);
+  LoginResponse? loginResponse;
+  LoginUserState(this.isLogged, this.loginResponse);
 }

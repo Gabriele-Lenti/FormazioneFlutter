@@ -6,3 +6,5 @@ class LoginUserEvent extends ProfileEvent{
   LoginUserEvent(this.username, this.password);
 }
 
+class LogoutEvent extends ProfileEvent{}
+

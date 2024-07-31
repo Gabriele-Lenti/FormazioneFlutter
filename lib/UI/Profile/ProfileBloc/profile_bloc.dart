@@ -5,19 +5,20 @@ import '../../../Response/login_response.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
 
-class ProfileBloc extends Bloc<LoginUserEvent, LoginUserState>{
+class ProfileBloc extends Bloc<ProfileEvent, ProfileState>{
   ProfileBloc() : super(LoginUserState(false, null)){
     on<LoginUserEvent>(onLoginUser);
+    on<LogoutEvent>(onLogout);
   }
 
-  Future<void> onLoginUser(LoginUserEvent event, Emitter<LoginUserState> emit) async {
+  Future<void> onLoginUser(LoginUserEvent event, Emitter<ProfileState> emit) async {
     if(event.username.isNotEmpty && event.password.isNotEmpty){
       NetworkManager networkManager = NetworkManager();
 
       try{
         LoginResponse userInfo;
         userInfo = await networkManager.getUserLoginInfo(event.username, event.password);
-        emit(LoginUserState(true, userInfo.username));
+        emit(LoginUserState(true, userInfo));
         print("${event.username} e ${event.password} non sono vuoti");
       } catch(error){
         print(error);
@@ -26,5 +27,9 @@ class ProfileBloc extends Bloc<LoginUserEvent, LoginUserState>{
     }else{
       print("è vuoto");
     }
+  }
+
+  Future<void> onLogout(LogoutEvent event, Emitter<ProfileState> emit) async {
+    emit(ProfileState());
   }
 }
