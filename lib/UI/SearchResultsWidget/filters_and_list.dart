@@ -3,20 +3,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formazione_flutter/UI/SearchResultsWidget/SearchBloc/search_state.dart';
 import 'package:formazione_flutter/UI/Common/filters.dart';
 
+import '../../Response/artist_collection_response.dart';
 import '../Common/table_container_view.dart';
 import 'SearchBloc/search_bloc.dart';
 import 'SearchBloc/search_events.dart';
 
 class FiltersAndList extends StatelessWidget {
-  final UpdateSearchState state;
 
-  const FiltersAndList({super.key, required this.state});
+  final List<Results> result;
+  final List<String> filters;
+  final int? selectedFilterIndex;
+
+  const FiltersAndList({super.key, required this.result, required this.filters, required this.selectedFilterIndex});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Filters(filters: state.filters, selectedFilterIndex: state.selectedFilterIndex, filter: ((value, index) {
+        Filters(filters: filters, selectedFilterIndex: selectedFilterIndex, filter: ((value, index) {
           context.read<SearchBloc>().add(
               value == "RESET"
                   ? ResetFilterEvent()
@@ -29,10 +33,10 @@ class FiltersAndList extends StatelessWidget {
             child: ListView.builder(
           scrollDirection: Axis.vertical,
           shrinkWrap: true,
-          itemCount: state.result?.length,
+          itemCount: result.length,
           itemBuilder: (context, index) {
             return TableContainerView(
-                result: state.result![index]
+                result: result[index]
             );
           }))
       ],

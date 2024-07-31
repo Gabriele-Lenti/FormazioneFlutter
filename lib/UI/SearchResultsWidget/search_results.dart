@@ -60,10 +60,9 @@ class SearchResults extends StatelessWidget {
               ));
             } else {
               if (state.result != null) {
-                if (state.result!.length > 0) {
+                if (state.result!.isNotEmpty) {
                   return Expanded(
-                    //passare anche state preferiti
-                    child: FiltersAndList(state: state),
+                    child: FiltersAndList(result: state.result!, filters: state.filters, selectedFilterIndex: state.selectedFilterIndex),
                   );
                 } else {
                   return Expanded(
