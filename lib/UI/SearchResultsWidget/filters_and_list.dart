@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formazione_flutter/UI/SearchResultsWidget/SearchBloc/search_state.dart';
-import 'package:formazione_flutter/UI/SearchResultsWidget/filters.dart';
+import 'package:formazione_flutter/UI/Common/filters.dart';
 
 import '../Common/table_container_view.dart';
 import 'SearchBloc/search_bloc.dart';
