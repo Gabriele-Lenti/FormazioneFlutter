@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:formazione_flutter/UI/FilterResultsWidget/filter_results.dart';
+import 'package:formazione_flutter/UI/SearchResultsWidget/filters_and_list.dart';
 import 'SearchBloc/search_bloc.dart';
 import 'SearchBloc/search_events.dart';
 import 'SearchBloc/search_state.dart';
@@ -63,7 +63,7 @@ class SearchResults extends StatelessWidget {
                 if (state.result!.length > 0) {
                   return Expanded(
                     //passare anche state preferiti
-                    child: FilterResults(state: state),
+                    child: FiltersAndList(state: state),
                   );
                 } else {
                   return Expanded(
