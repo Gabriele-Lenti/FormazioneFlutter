@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formazione_flutter/UI/Common/FilterUtils.dart';
 import '../../../Network/network_manager.dart';
 import '../../../Response/artist_collection_response.dart';
 import 'search_events.dart';
@@ -27,30 +28,12 @@ class SearchBloc extends Bloc<SearchEvents, SearchState>{
         notFilteredresults = results;
         filteredResults = results;
       }
-      List<String> filters = [];
-      if (results != null){
-        for (var value in results) {
-          if (!filters.contains(value.kind)) {
-            if (value.kind != null){
-              filters.add(value.kind!);
-            }
-          }
-        }
+
+      if (results != null) {
+        blocFilters = FilterUtils.createFilters(results);
       }
 
-      if (filters.isEmpty) {
-        filters = [];
-      } else {
-
-        if (filters.length == 1) {
-          filters = [];
-        } else {
-          filters.add("RESET");
-        }
-      }
-
-      blocFilters = filters;
-      emit(UpdateSearchState(results, SearchStatus.loaded, null, filters));
+      emit(UpdateSearchState(results, SearchStatus.loaded, null, blocFilters));
     } catch (e){
       emit(UpdateErrorState(e.toString()));
     }

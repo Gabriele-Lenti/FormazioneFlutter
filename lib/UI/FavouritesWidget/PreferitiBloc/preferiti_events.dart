@@ -10,3 +10,12 @@ class AddOrRemovePreferitiEvent extends PreferitiEvents {
 }
 
 class GetUpdatedPreferitiEvent extends PreferitiEvents {}
+
+class ResetFilterPreferitiEvent extends PreferitiEvents {}
+
+class FilterListPreferitiEvent extends PreferitiEvents {
+  String query = '';
+  int? selectedFilterIndex;
+
+  FilterListPreferitiEvent(this.query, this.selectedFilterIndex);
+}
