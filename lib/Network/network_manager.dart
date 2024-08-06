@@ -24,6 +24,9 @@ class NetworkManager {
     _dioClient.updateBaseUrl(false);
     String url = _dioClient.getBaseUrl();
     String endpoint = '$url/search?term=$artist&limit=20';
+
+    print("Endpoint: ${endpoint}");
+
     try {
       final response = await _dioClient.dio
           .get(endpoint, options: Options(responseType: ResponseType.json));
